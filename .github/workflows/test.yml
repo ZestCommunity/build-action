@@ -77,7 +77,7 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          path: /ZestCode
+          path: ./ZestCode
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
       - name: Test Action
         id: test-action
         run: |
-          docker run --rm --entrypoint /bin/bash -v /ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
+          docker run --rm --entrypoint /bin/bash -v ./ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
             ls -a &&
             cd /workspace &&
             ls -a &&
