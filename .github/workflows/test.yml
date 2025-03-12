@@ -104,7 +104,7 @@ jobs:
         id: test-action
         run: |
           docker run --rm -v ${{ github.workspace }}/action/ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} /bin/bash -c "
-            cd /workspace/ZestCodeCloned &&
+            cd /workspace/ZestCode &&
             sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
             meson setup --cross-file scripts/v5.ini builddir &&
             meson compile -C builddir
