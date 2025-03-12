@@ -1,19 +1,19 @@
 name: Tests
 on:
   workflow_call:
-#     inputs:
-#       repository:
-#         description: The github repository to checkout
-#         required: true
-#         type: string
-#       ref:
-#         description: The ref of the github repository to checkout
-#         required: true
-#         type: string
-#       caller_token:
-#         description: "The token of the caller"
-#         required: true
-#         type: string
+    inputs:
+      repository:
+        description: The github repository to checkout
+        required: true
+        type: string
+      ref:
+        description: The ref of the github repository to checkout
+        required: true
+        type: string
+      caller_token:
+        description: "The token of the caller"
+        required: true
+        type: string
 #       expect_error:
 #         description: Whether to expect action to fail, and only to succeed if the action fails
 #         default: false
