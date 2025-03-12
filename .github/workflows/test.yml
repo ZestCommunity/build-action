@@ -103,10 +103,11 @@ jobs:
       - name: Test Action
         id: test-action
         run: |
-          docker run --rm --entrypoint /bin/bash -v ${{ github.workspace }}/action/ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
+          docker run --rm --entrypoint /bin/bash -v ./action/ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
             ls -a &&
-            cd /workspace/ZestCode &&
+            cd /workspace &&
             ls -a &&
+            cd ZestCode &&
             sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
             meson setup --cross-file scripts/v5.ini builddir &&
             meson compile -C builddir
