@@ -77,7 +77,7 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          path: ./ZestCodeCloned
+          path: /ZestCodeCloned
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -102,9 +102,10 @@ jobs:
 
       - name: Test Action
         id: test-action
-        # uses: ./action/
         run: |
-          cd ZestCodeCloned
-          sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini
-          meson setup --cross-file scripts/v5.ini builddir
-          meson compile -C builddir
+          docker run --rm -v /ZestCodeCloned ${{ steps.load.outputs.tag }} /bin/bash -c "
+            cd ZestCodeCloned &&
+            sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
+            meson setup --cross-file scripts/v5.ini builddir &&
+            meson compile -C builddir
+          "
