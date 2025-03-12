@@ -77,6 +77,7 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
+          path: ./ZestCodeCloned
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -101,33 +102,9 @@ jobs:
 
       - name: Test Action
         id: test-action
-        uses: ./action/
-#         continue-on-error: ${{ inputs.expect_error }}
-#         with:
-#           multithreading: ${{ inputs.multithreading }}
-#           no_commit_hash: ${{ !inputs.append_sha_to_version }}
-#           copy_readme_and_license_to_include: ${{ inputs.add_extra_files }}
-#           lib_folder_name: ${{ inputs.lib_folder_name }}
-#           write_job_summary: ${{ inputs.write_job_summary }}
-      
-#       - name: Check for Failure If Expected
-#         if: ${{ inputs.expect_error }}        
-#         run: |
-#           if [ "${{ (steps.test-action.outcome == 'success') }}" == "true" ]; then
-#             echo "Test Action step succeeded when it was expected to fail. Failing job.."
-#             exit 1
-#           else
-#             echo "Test Action step failed as expected."
-#           fi
-
-#       - name: Upload Artifact
-#         id: upload
-#         if: ${{ inputs.upload_artifact && !inputs.expect_error }} 
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: "${{ steps.test-action.outputs.name }}${{ inputs.artifact_additional_postfix }}"
-#           path: "template/*"
-          
-#       - name: Add Artifact to Job Summary
-#         if: ${{ inputs.upload_artifact && !inputs.expect_error }} 
-#         run: 'echo "### 📦 Artifact url: ${{ steps.upload.outputs.artifact-url }}" >> $GITHUB_STEP_SUMMARY'
+        # uses: ./action/
+        run: |
+          cd ZestCodeCloned
+          sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini
+          meson setup --cross-file scripts/v5.ini builddir
+          meson compile -C builddir
