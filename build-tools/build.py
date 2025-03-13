@@ -64,7 +64,8 @@ BUILD AND COMPILE PROJECT
 group("Setup Project")
 # compile_output = run_command("meson setup --cross-file scripts/v5.ini builddir", exit_on_error=True)
 try:
-  global setup_output = subprocess.run(
+  global setup_output 
+  setup_output = subprocess.run(
     "meson setup --cross-file scripts/v5.ini builddir",
     shell=True,
     check=True,
@@ -96,13 +97,18 @@ BUILD PROJECT
 group("Build Project")
 build_start_time = time.time()
 try:
-  global compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
+  global compile_output 
+  compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
   
-  global build_finish_time = time.time()
-  global build_duration = build_finish_time - build_start_time
+  global build_finish_time 
+  build_finish_time = time.time()
+  global build_duration
+  build_duration build_finish_time - build_start_time
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
-  if 'build_duration' not in locals():
+  if 'build_duration' not in globals():
+    global build_finish_time 
+    global build_duration
     build_finish_time = time.time()
     build_duration = build_finish_time - build_start_time
   text = "# 🛑 Meson Compile Failed\n"
