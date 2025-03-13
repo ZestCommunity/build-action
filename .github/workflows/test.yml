@@ -114,4 +114,4 @@ jobs:
       - name: Test Action
         id: test-action
         uses: ./action/
-        continue-on-error: ${{ inputs.expect_error }}
+        continue-on-error: False
