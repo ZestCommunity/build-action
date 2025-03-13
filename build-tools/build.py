@@ -59,6 +59,8 @@ try:
     check=True,
     capture_output=True
   )
+  print(setup_output.stdout.decode('utf-8'), sys.stdout)
+  print(setup_output.stderr.decode('utf-8'), sys.stderr)
 except subprocess.CalledProcessError as e:
   text = "# 🛑 Meson Setup Failed\n"
   text += "An error occurred while running the `meson setup` command. Please check the error output below for more details.\n\n"
@@ -87,8 +89,14 @@ global compile_output
 group("Build Project")
 build_start_time = time.time()
 try:
-  compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True, capture_output=True)
-  
+  compile_output = subprocess.run(
+    "meson compile -C builddir", 
+    shell=True, 
+    check=True, 
+    capture_output=True
+  )
+  print(compile_output.stdout.decode('utf-8'), sys.stdout)
+  print(compile_output.stderr.decode('utf-8'), sys.stderr)
   build_finish_time = time.time()
   build_duration = build_finish_time - build_start_time
 except subprocess.CalledProcessError as e:
