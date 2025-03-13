@@ -57,12 +57,15 @@ try:
     setup_output = subprocess.run(
       "meson setup --cross-file scripts/v5.ini builddir",
       shell=True,
-      check=True,
-      capture_output=True
+      check=False,
+      capture_output=True,
+      text=True
     )
   finally:
-    print(setup_output.stdout.decode('utf-8'), sys.stdout)
-    print(setup_output.stderr.decode('utf-8'), sys.stderr)
+    print(setup_output.stdout, sys.stdout)
+    print(setup_output.stderr, sys.stderr)
+    if setup_output.returncode != 0:
+      raise subprocess.CalledProcessError(setup_output.returncode, setup_output.args, output=setup_output.stdout, stderr=setup_output.stderr)
 except subprocess.CalledProcessError as e:
   text = "# 🛑 Meson Setup Failed\n"
   text += "An error occurred while running the `meson setup` command. Please check the error output below for more details.\n\n"
@@ -95,14 +98,18 @@ try: #outer
     compile_output = subprocess.run(
       "meson compile -C builddir", 
       shell=True, 
-      check=True, 
-      capture_output=True
+      check=False, 
+      capture_output=True,
+      text=True
     )
   finally:
-    print(compile_output.stdout.decode('utf-8'), sys.stdout)
-    print(compile_output.stderr.decode('utf-8'), sys.stderr)
+    print(compile_output.stdout, sys.stdout)
+    print(compile_output.stderr, sys.stderr)
     build_finish_time = time.time()
     build_duration = build_finish_time - build_start_time
+    # if compile_output.returncode != 0, throw an error
+    if compile_output.returncode != 0:
+      raise subprocess.CalledProcessError(compile_output.returncode, compile_output.args, output=compile_output.stdout, stderr=compile_output.stderr)
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
   if 'build_duration' not in globals():
