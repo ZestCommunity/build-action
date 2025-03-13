@@ -43,6 +43,7 @@ RUN apk add --no-cache gcompat libc6-compat libstdc++ git gawk python3 pipx unzi
 # Set Environment Variables
 ENV PATH="/arm-none-eabi-toolchain/bin:/root/.local/bin:${PATH}"
 
+ENV PYTHONUNBUFFERED=1
 
 # Setup Build
 # ENV PROS_PROJECT=${PROS_PROJECT}

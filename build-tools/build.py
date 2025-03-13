@@ -87,7 +87,7 @@ global compile_output
 group("Build Project")
 build_start_time = time.time()
 try:
-  compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
+  compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True, capture_output=True)
   
   build_finish_time = time.time()
   build_duration = build_finish_time - build_start_time
