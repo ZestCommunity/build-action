@@ -29,17 +29,6 @@ def group(name: str):
 def endgroup():
   print("::endgroup::")
 
-def run_command(command: str, check: bool = True):
-  logger.info(f"Running command: {command}")
-  try:
-    result = subprocess.run(command, shell=True, check=check, stdout=sys.stdout, stderr=sys.stderr)
-    if result.returncode != 0:
-      logger.error(f"Command failed with return code {result.returncode}")
-  except subprocess.CalledProcessError as e:
-    logger.error(f"Command failed with error: {e}")
-  finally:
-    return result
-
 
 """
 ECHO LICENSE
@@ -61,10 +50,9 @@ subprocess.run("git config --global --add safe.directory /github/workspace", she
 """
 BUILD AND COMPILE PROJECT
 """
+global setup_output 
 group("Setup Project")
-# compile_output = run_command("meson setup --cross-file scripts/v5.ini builddir", exit_on_error=True)
 try:
-  global setup_output 
   setup_output = subprocess.run(
     "meson setup --cross-file scripts/v5.ini builddir",
     shell=True,
@@ -72,7 +60,6 @@ try:
     stdout=sys.stdout,
     stderr=sys.stderr
   )
-  # setup_output = subprocess.run("meson setup --cross-file scripts/v5.ini builddir", shell=True, check=True, capture_output=True)
 except subprocess.CalledProcessError as e:
   text = "# 🛑 Meson Setup Failed\n"
   text += "An error occurred while running the `meson setup` command. Please check the error output below for more details.\n\n"
@@ -94,21 +81,20 @@ except subprocess.CalledProcessError as e:
 """
 BUILD PROJECT
 """
+
+global build_finish_time 
+global build_duration
+global compile_output 
 group("Build Project")
 build_start_time = time.time()
 try:
-  global compile_output 
   compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
   
-  global build_finish_time 
   build_finish_time = time.time()
-  global build_duration
   build_duration = build_finish_time - build_start_time
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
   if 'build_duration' not in globals():
-    global build_finish_time 
-    global build_duration
     build_finish_time = time.time()
     build_duration = build_finish_time - build_start_time
   text = "# 🛑 Meson Compile Failed\n"
