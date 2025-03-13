@@ -72,7 +72,7 @@ except subprocess.CalledProcessError as e:
   text += "#### 📄 Error Output\n"
   text += "<details><summary>Click to expand</summary>   "
   text += "```\n"
-  text += setup_output.stdout.decode('utf-8')
+  text += setup_output.stdout
   text += "\n```\n"
   text += "</details>\n"
   text += "\n"
@@ -120,7 +120,7 @@ except subprocess.CalledProcessError as e:
   text += "#### 📄 Error Output\n"
   text += "<details><summary>Click to expand</summary>   "
   text += "```\n"
-  text += compile_output.stdout.decode('utf-8')
+  text += compile_output.stdout
   text += "\n```\n"
   text += "</details>\n"
   text += "\n"
@@ -139,7 +139,7 @@ text += "The build was successful. Please check the output below for more detail
 text += "#### 📄 Build Output\n"
 text += "<details><summary>Click to expand</summary>   "
 text += "```\n"
-text += compile_output.stdout.decode('utf-8')
+text += compile_output.stdout
 text += "\n```\n"
 text += "</details>\n"
 text += "\n"
