@@ -103,7 +103,7 @@ try:
   global build_finish_time 
   build_finish_time = time.time()
   global build_duration
-  build_duration build_finish_time - build_start_time
+  build_duration = build_finish_time - build_start_time
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
   if 'build_duration' not in globals():
