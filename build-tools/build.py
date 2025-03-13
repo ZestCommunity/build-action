@@ -57,8 +57,7 @@ try:
     "meson setup --cross-file scripts/v5.ini builddir",
     shell=True,
     check=True,
-    stdout=sys.stdout,
-    stderr=sys.stderr
+    capture_output=True
   )
 except subprocess.CalledProcessError as e:
   text = "# 🛑 Meson Setup Failed\n"
