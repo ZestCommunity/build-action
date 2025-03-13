@@ -56,4 +56,4 @@ RUN chmod +x /build.py
 COPY LICENSE ./LICENSE
 
 # ENTRYPOINT ["/build.sh"]
-RUN ["python3", "/build.py"]
+CMD ["python3", "/build.py"]
