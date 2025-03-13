@@ -63,6 +63,7 @@ BUILD AND COMPILE PROJECT
 """
 group("Setup Project")
 # compile_output = run_command("meson setup --cross-file scripts/v5.ini builddir", exit_on_error=True)
+setup_output = None
 try:
   setup_output = subprocess.run(
     "meson setup --cross-file scripts/v5.ini builddir",
@@ -95,6 +96,7 @@ BUILD PROJECT
 """
 group("Build Project")
 build_start_time = time.time()
+compile_output = None
 try:
   compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
   
