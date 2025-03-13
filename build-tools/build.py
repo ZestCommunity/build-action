@@ -46,7 +46,7 @@ ECHO LICENSE
 """
 try:
   group("LICENSE")
-  with open("LICENSE", "r") as f:
+  with open("/LICENSE", "r") as f:
     print(f.read())
   endgroup()
 except FileNotFoundError:
@@ -63,9 +63,8 @@ BUILD AND COMPILE PROJECT
 """
 group("Setup Project")
 # compile_output = run_command("meson setup --cross-file scripts/v5.ini builddir", exit_on_error=True)
-setup_output = None
 try:
-  setup_output = subprocess.run(
+  global setup_output = subprocess.run(
     "meson setup --cross-file scripts/v5.ini builddir",
     shell=True,
     check=True,
@@ -96,12 +95,11 @@ BUILD PROJECT
 """
 group("Build Project")
 build_start_time = time.time()
-compile_output = None
 try:
-  compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
+  global compile_output = subprocess.run("meson compile -C builddir", shell=True, check=True)
   
-  build_finish_time = time.time()
-  build_duration = build_finish_time - build_start_time
+  global build_finish_time = time.time()
+  global build_duration = build_finish_time - build_start_time
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
   if 'build_duration' not in locals():

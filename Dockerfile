@@ -53,7 +53,7 @@ ENV PATH="/arm-none-eabi-toolchain/bin:/root/.local/bin:${PATH}"
 # RUN chmod +x /build.sh
 COPY build-tools/build.py /build.py
 RUN chmod +x /build.py
-COPY LICENSE ./LICENSE
+COPY LICENSE /LICENSE
 
 # ENTRYPOINT ["/build.sh"]
 CMD ["python3", "/build.py"]
