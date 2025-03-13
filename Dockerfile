@@ -49,8 +49,11 @@ ENV PATH="/arm-none-eabi-toolchain/bin:/root/.local/bin:${PATH}"
 # ENV REPOSITORY=${REPOSITORY}
 # ENV LIBRARY_PATH=${LIBRARY_PATH}
 
-COPY build-tools/build.sh /build.sh
-RUN chmod +x /build.sh
+# COPY build-tools/build.sh /build.sh
+# RUN chmod +x /build.sh
+COPY build-tools/build.py /build.py
+RUN chmod +x /build.py
 COPY LICENSE ./LICENSE
 
-ENTRYPOINT ["/build.sh"]
+# ENTRYPOINT ["/build.sh"]
+RUN ["python3", "/build.py"]

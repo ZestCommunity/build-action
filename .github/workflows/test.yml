@@ -77,7 +77,6 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
-          path: ./ZestCode
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -100,15 +99,19 @@ jobs:
           sed -i "s|docker://ghcr.io/.*/pros-build:[^\']*|docker://${{steps.load.outputs.tag}}|g" action/action.yml
           cat action/action.yml
 
+      # - name: Test Action
+      #   id: test-action
+      #   run: |
+      #     docker run --rm --entrypoint /bin/bash -v ./ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
+      #       ls -a &&
+      #       cd /workspace &&
+      #       ls -a &&
+      #       cd ZestCode &&
+      #       sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
+      #       meson setup --cross-file scripts/v5.ini builddir &&
+      #       meson compile -C builddir
+      #     "
       - name: Test Action
         id: test-action
-        run: |
-          docker run --rm --entrypoint /bin/bash -v ./ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
-            ls -a &&
-            cd /workspace &&
-            ls -a &&
-            cd ZestCode &&
-            sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
-            meson setup --cross-file scripts/v5.ini builddir &&
-            meson compile -C builddir
-          "
+        uses: ./action/
+        continue-on-error: ${{ inputs.expect_error }}
