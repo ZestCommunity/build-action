@@ -76,7 +76,7 @@ STD_OUTPUT=$(mktemp)
 disable-errors
 # time this command
 start_time=$(date +%s)
-meson compile --verbose -C build | tee $STD_OUTPUT
+meson compile -C build | tee $STD_OUTPUT
 meson_exit_code=${PIPESTATUS[0]}
 end_time=$(date +%s)
 echo "Meson compile exit code: $meson_exit_code"
