@@ -109,8 +109,8 @@ jobs:
       matrix:
         write_job_summary: [true, false]
         repository: [ZestCommunity/ZestCode]
-        ref: [main]
-        caller_token: [${{ github.token }}]
+        ref: ["main"]
+        caller_token: ["${{ github.token }}"]
   #   permissions:
   #     contents: read
   #     packages: write
