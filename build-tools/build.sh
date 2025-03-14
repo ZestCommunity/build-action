@@ -50,6 +50,7 @@ COMPILE_STD_OUTPUT=$(mktemp)
 echo "::group::Build Project"
 meson setup --cross-file scripts/v5.ini builddir | tee $COMPILE_STD_OUTPUT
 meson_exit_code = ${PIPESTATUS[0]}
+echo "Meson setup exit code: $meson_exit_code"
 if [ $meson_exit_code -ne 0 ]; then
   echo "Meson setup failed. Please check the logs for more information."
   GH_SUMMARY_OUTPUT=$(mktemp)
@@ -79,6 +80,7 @@ start_time=$(date +%s)
 meson compile -C builddir | tee $STD_OUTPUT
 end_time=$(date +%s)
 meson_exit_code=${PIPESTATUS[0]}
+echo "Meson compile exit code: $meson_exit_code"
 elapsed_time=$((end_time - start_time))
 echo "Meson compile took $elapsed_time seconds"
 STD_EDITED_OUTPUT=$(mktemp)
