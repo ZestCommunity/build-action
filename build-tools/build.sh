@@ -78,8 +78,8 @@ disable-errors
 # time this command
 start_time=$(date +%s)
 meson compile -C builddir | tee $STD_OUTPUT
-end_time=$(date +%s)
 meson_exit_code=${PIPESTATUS[0]}
+end_time=$(date +%s)
 echo "Meson compile exit code: $meson_exit_code"
 elapsed_time=$((end_time - start_time))
 echo "Meson compile took $elapsed_time seconds"
