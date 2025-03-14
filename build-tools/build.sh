@@ -4,8 +4,8 @@
 # Flag to control error trapping
 trap_enabled=true
 
-alias disable-errors="set +e; trap_enabled=false"
-alias enable-errors="set -e; trap_enabled=true"
+alias disable-errors="set +e"
+alias enable-errors="set -e"
 
 # start time in seconds
 script_start_time=$(date +%s)
