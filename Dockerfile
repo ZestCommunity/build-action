@@ -50,11 +50,11 @@ ENV PYTHONUNBUFFERED=1
 # ENV REPOSITORY=${REPOSITORY}
 # ENV LIBRARY_PATH=${LIBRARY_PATH}
 
-# COPY build-tools/build.sh /build.sh
-# RUN chmod +x /build.sh
-COPY build-tools/build.py /build.py
-RUN chmod +x /build.py
+COPY build-tools/build.sh /build.sh
+RUN chmod +x /build.sh
+# COPY build-tools/build.py /build.py
+# RUN chmod +x /build.py
 COPY LICENSE /LICENSE
 
-# ENTRYPOINT ["/build.sh"]
-CMD ["python3", "/build.py"]
+ENTRYPOINT ["/build.sh"]
+# CMD ["python3", "/build.py"]

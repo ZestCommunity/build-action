@@ -5,7 +5,9 @@ import subprocess
 import time
 import argparse
 import logging
-
+import io 
+import tempfile
+ 
 print("# ZestCommunity/build-action build.py")
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -44,35 +46,36 @@ except FileNotFoundError:
 except Exception as e:
   # print(f"Error reading build-action's LICENSE file: {e}")
   logger.error(f"Error reading build-action's LICENSE file: {e}")
-
+endgroup()
 
 subprocess.run("git config --global --add safe.directory /github/workspace", shell=True, check=True)
 """
 BUILD AND COMPILE PROJECT
 """
 global setup_output 
+global setup_process
+global setup_output_err
 group("Setup Project")
 try:
-  try:
-    setup_output = subprocess.run(
-      "meson setup --cross-file scripts/v5.ini builddir",
-      shell=True,
-      check=False,
-      capture_output=True,
-      text=True
+  with tempfile.NamedTemporaryFile(delete=False) as setup_output:
+    setup_process = subprocess.Popen(
+    "tasklist",
+    shell=True,
+    text=True,
+    stdout=subprocess.PIPE,
     )
-  finally:
-    print(setup_output.stdout, sys.stdout)
-    print(setup_output.stderr, sys.stderr)
-    if setup_output.returncode != 0:
-      raise subprocess.CalledProcessError(setup_output.returncode, setup_output.args, output=setup_output.stdout, stderr=setup_output.stderr)
+    
+  # setup_output, setup_output_err = setup_process.communicate()
+  # print(setup_output)
+  if setup_process.returncode != 0:
+    raise subprocess.CalledProcessError(setup_process.returncode, setup_process.args, output=setup_process.stdout, stderr=setup_process.stderr)
 except subprocess.CalledProcessError as e:
   text = "# 🛑 Meson Setup Failed\n"
   text += "An error occurred while running the `meson setup` command. Please check the error output below for more details.\n\n"
   text += "#### 📄 Error Output\n"
   text += "<details><summary>Click to expand</summary>   "
   text += "```\n"
-  text += setup_output.stdout
+  text += setup_output
   text += "\n```\n"
   text += "</details>\n"
   text += "\n"
@@ -91,25 +94,22 @@ BUILD PROJECT
 global build_finish_time 
 global build_duration
 global compile_output 
+global compile_output_err
 group("Build Project")
 build_start_time = time.time()
-try: #outer
-  try: # inner
-    compile_output = subprocess.run(
-      "meson compile -C builddir", 
-      shell=True, 
-      check=False, 
-      capture_output=True,
-      text=True
-    )
-  finally:
-    print(compile_output.stdout, sys.stdout)
-    print(compile_output.stderr, sys.stderr)
-    build_finish_time = time.time()
-    build_duration = build_finish_time - build_start_time
-    # if compile_output.returncode != 0, throw an error
-    if compile_output.returncode != 0:
-      raise subprocess.CalledProcessError(compile_output.returncode, compile_output.args, output=compile_output.stdout, stderr=compile_output.stderr)
+try: 
+  compile_output_process = subprocess.Popen(
+    "meson compile -C builddir", 
+    shell=True, 
+    text=True
+  )
+  compile_output, compile_output_err = compile_output_process.communicate()
+  build_finish_time = time.time()
+  build_duration = build_finish_time - build_start_time
+  
+  # if compile_output.returncode != 0, throw an error
+  if compile_output_process.returncode != 0:
+      raise subprocess.CalledProcessError(compile_output_process.returncode, compile_output_process.args, output=compile_output_process.stdout, stderr=compile_output_process.stderr)
 except subprocess.CalledProcessError as e:
   # If build_finish_time is not set, set it to the current time
   if 'build_duration' not in globals():
