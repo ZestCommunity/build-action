@@ -1,11 +1,13 @@
 #!/bin/bash
 # git clone https://github.com/ZestCommunity/ZestCode.git && cd ZestCode  && git switch build/meson-init && sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini && meson setup --cross-file scripts/v5.ini builddir && meson compile -C builddir
 
-# Flag to control error trapping
-trap_enabled=true
+disable-errors() {
+  set +e
+}
 
-alias disable-errors="set +e"
-alias enable-errors="set -e"
+enable-errors() {
+  set -e
+}
 
 # start time in seconds
 script_start_time=$(date +%s)
