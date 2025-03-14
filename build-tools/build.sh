@@ -83,8 +83,8 @@ echo "Meson compile exit code: $meson_exit_code"
 elapsed_time=$((end_time - start_time))
 echo "Meson compile took $elapsed_time seconds"
 STD_EDITED_OUTPUT=$(mktemp)
-# Remove ANSI color codes from the output
-# https://stackoverflow.com/a/18000433
+# * Remove ANSI color codes from the output
+# * https://stackoverflow.com/a/18000433
 sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" $STD_OUTPUT >$STD_EDITED_OUTPUT
 
 if [ $meson_exit_code -ne 0 ]; then
@@ -103,8 +103,8 @@ fi
 echo "::endgroup::"
 
 # ------------
-# BUILD SUCCESS
-# FINAL SUMMARY
+# # BUILD SUCCESS
+# ! FINAL SUMMARY
 # ------------
 echo "The build was successful"
 echo "The build took $elapsed_time seconds"
