@@ -108,7 +108,7 @@ jobs:
       fail-fast: true
       matrix:
         write_job_summary: [true, false]
-        repository: [ZestCommunity/ZestCode]
+        repository: ["ZestCommunity/ZestCode"]
         ref: ["main"]
         caller_token: ["${{ github.token }}"]
   #   permissions:
