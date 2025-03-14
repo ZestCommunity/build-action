@@ -62,6 +62,7 @@ if [ $meson_exit_code -ne 0 ]; then
   echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
   echo "</details>  " >> $GH_SUMMARY_OUTPUT
   echo "::endgroup::"
+  echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
   exit 1
 fi
 echo "::endgroup::"
@@ -96,6 +97,7 @@ if [ $meson_exit_code -ne 0 ]; then
   echo "$STD_EDITED_OUTPUT" >> $GH_SUMMARY_OUTPUT
   echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
   echo "</details>  " >> $GH_SUMMARY_OUTPUT
+  echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
   exit 1
 fi
 echo "::endgroup::"
@@ -118,4 +120,5 @@ echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
 echo "$STD_EDITED_OUTPUT" >> $GH_SUMMARY_OUTPUT
 echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
 echo "</details>  " >> $GH_SUMMARY_OUTPUT
+echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
 
