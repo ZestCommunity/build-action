@@ -52,19 +52,21 @@ meson setup --cross-file scripts/v5.ini build | tee $COMPILE_STD_OUTPUT
 meson_exit_code = ${PIPESTATUS[0]}
 echo "Meson setup exit code: $meson_exit_code"
 if [ $meson_exit_code -ne 0 ]; then
-  echo "Meson setup failed. Please check the logs for more information."
-  echo "# 🛑 Meson Setup Failed  " > $GITHUB_STEP_SUMMARY
-  echo "Meson setup failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
-  echo "***" >> $GITHUB_STEP_SUMMARY
-  echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  cat $COMPILE_STD_OUTPUT >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "</details>  " >> $GITHUB_STEP_SUMMARY
+    echo "Meson setup failed. Please check the logs for more information."
+  if [ $INPUT_WRITE_JOB_SUMMARY = true ]; then
+    echo "# 🛑 Meson Setup Failed  " > $GITHUB_STEP_SUMMARY
+    echo "Meson setup failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
+    echo "***" >> $GITHUB_STEP_SUMMARY
+    echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    cat $COMPILE_STD_OUTPUT >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "</details>  " >> $GITHUB_STEP_SUMMARY
+  fi
   echo "::endgroup::"
   exit 1
 fi
@@ -91,19 +93,21 @@ STD_EDITED_OUTPUT=$(mktemp)
 sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" $STD_OUTPUT >$STD_EDITED_OUTPUT
 
 if [ $meson_exit_code -ne 0 ]; then
-  echo "Meson compile failed. Please check the logs for more information."
-  echo "# 🛑 Meson Compile Failed  " > $GITHUB_STEP_SUMMARY
-  echo "Meson compile failed in $elapsed_time seconds. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
-  echo "***" >> $GITHUB_STEP_SUMMARY
-  echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
-  echo "  " >> $GITHUB_STEP_SUMMARY
-  echo "</details>  " >> $GITHUB_STEP_SUMMARY
+  if [ $INPUT_WRITE_JOB_SUMMARY = true ]; then
+    echo "Meson compile failed. Please check the logs for more information."
+    echo "# 🛑 Meson Compile Failed  " > $GITHUB_STEP_SUMMARY
+    echo "Meson compile failed in $elapsed_time seconds. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
+    echo "***" >> $GITHUB_STEP_SUMMARY
+    echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
+    echo "  " >> $GITHUB_STEP_SUMMARY
+    echo "</details>  " >> $GITHUB_STEP_SUMMARY
+  fi
   exit 1
 fi
 echo "::endgroup::"
@@ -116,16 +120,18 @@ echo "The build was successful"
 echo "The build took $elapsed_time seconds"
 
 # job summary
-echo "# ✅ Build Successful  " > $GITHUB_STEP_SUMMARY
-echo "The build was successful and took $elapsed_time seconds.  " >> $GITHUB_STEP_SUMMARY
-echo "***" >> $GITHUB_STEP_SUMMARY
-echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
-echo "  " >> $GITHUB_STEP_SUMMARY
-echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
-echo "  " >> $GITHUB_STEP_SUMMARY
-cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
-echo "  " >> $GITHUB_STEP_SUMMARY
-echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
-echo "  " >> $GITHUB_STEP_SUMMARY
-echo "</details>  " >> $GITHUB_STEP_SUMMARY
+if [ $INPUT_WRITE_JOB_SUMMARY = true ]; then
+  echo "# ✅ Build Successful  " > $GITHUB_STEP_SUMMARY
+  echo "The build was successful and took $elapsed_time seconds.  " >> $GITHUB_STEP_SUMMARY
+  echo "***" >> $GITHUB_STEP_SUMMARY
+  echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
+  cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
+  echo "</details>  " >> $GITHUB_STEP_SUMMARY
+fi
 

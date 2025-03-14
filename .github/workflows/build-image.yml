@@ -153,10 +153,13 @@ jobs:
   #           ref: build/meson-init
   #           lib_folder_name: lemlib
     uses: ./.github/workflows/test.yml
-    with:
-      repository: ZestCommunity/ZestCode
-      ref: main
-      caller_token: ${{ github.token }}
+    strategy:
+      fail-fast: true
+      matrix:
+        write_job_summary: [true, false]
+        repository: [ZestCommunity/ZestCode]
+        ref: [main]
+        caller_token: [${{ github.token }}]
       # expect_error: ${{ matrix.expect_error }}
       # upload_artifact: ${{ matrix.upload_artifact }}
       # multithreading: ${{ matrix.multithreading }}

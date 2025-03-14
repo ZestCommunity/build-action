@@ -40,10 +40,10 @@ on:
 #           Required if add_extra_files is true
 #         default: ""
 #         type: string
-#       write_job_summary:
-#         description: Whether to write the artifact URL to the job summary
-#         default: true
-#         type: boolean   
+      write_job_summary:
+        description: Whether to write the artifact URL to the job summary
+        default: true
+        type: boolean   
 #       artifact_additional_postfix:
 #         description: Additional postfix to add to the artifact name
 #         default: ""
