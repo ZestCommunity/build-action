@@ -111,6 +111,11 @@ jobs:
         repository: ["ZestCommunity/ZestCode"]
         ref: ["main"]
         caller_token: ["${{ github.token }}"]
+    with:
+      write_job_summary: ${{ matrix.write_job_summary }}
+      repository: ${{ matrix.repository }}
+      ref: ${{ matrix.ref }}
+      caller_token: ${{ matrix.caller_token }}
   #   permissions:
   #     contents: read
   #     packages: write
