@@ -53,17 +53,16 @@ meson_exit_code = ${PIPESTATUS[0]}
 echo "Meson setup exit code: $meson_exit_code"
 if [ $meson_exit_code -ne 0 ]; then
   echo "Meson setup failed. Please check the logs for more information."
-  GH_SUMMARY_OUTPUT=$(mktemp)
-  echo "# 🛑 Meson Setup Failed  " > $GH_SUMMARY_OUTPUT
-  echo "Meson setup failed. Please check the logs for more information.  " >> $GH_SUMMARY_OUTPUT
-  echo "***" >> $GH_SUMMARY_OUTPUT
-  echo "<details><summary>Click to expand</summary>  " >> $GH_SUMMARY_OUTPUT
-  echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-  echo "$COMPILE_STD_OUTPUT" >> $GH_SUMMARY_OUTPUT
-  echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-  echo "</details>  " >> $GH_SUMMARY_OUTPUT
+  GITHUB_STEP_SUMMARY=$(mktemp)
+  echo "# 🛑 Meson Setup Failed  " > $GITHUB_STEP_SUMMARY
+  echo "Meson setup failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
+  echo "***" >> $GITHUB_STEP_SUMMARY
+  echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "$COMPILE_STD_OUTPUT" >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "</details>  " >> $GITHUB_STEP_SUMMARY
   echo "::endgroup::"
-  echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
   exit 1
 fi
 echo "::endgroup::"
@@ -90,16 +89,15 @@ sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" $STD_OUTPUT >$STD_EDITED_
 
 if [ $meson_exit_code -ne 0 ]; then
   echo "Meson compile failed. Please check the logs for more information."
-  GH_SUMMARY_OUTPUT=$(mktemp)
-  echo "# 🛑 Meson Compile Failed  " > $GH_SUMMARY_OUTPUT
-  echo "Meson compile failed. Please check the logs for more information.  " >> $GH_SUMMARY_OUTPUT
-  echo "***" >> $GH_SUMMARY_OUTPUT
-  echo "<details><summary>Click to expand</summary>  " >> $GH_SUMMARY_OUTPUT
-  echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-  echo "$STD_EDITED_OUTPUT" >> $GH_SUMMARY_OUTPUT
-  echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-  echo "</details>  " >> $GH_SUMMARY_OUTPUT
-  echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
+  GITHUB_STEP_SUMMARY=$(mktemp)
+  echo "# 🛑 Meson Compile Failed  " > $GITHUB_STEP_SUMMARY
+  echo "Meson compile failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
+  echo "***" >> $GITHUB_STEP_SUMMARY
+  echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "$STD_EDITED_OUTPUT" >> $GITHUB_STEP_SUMMARY
+  echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "</details>  " >> $GITHUB_STEP_SUMMARY
   exit 1
 fi
 echo "::endgroup::"
@@ -112,15 +110,14 @@ echo "The build was successful"
 echo "The build took $elapsed_time seconds"
 
 # job summary
-GH_SUMMARY_OUTPUT=$(mktemp)
-echo "# ✅ Build Successful  " > $GH_SUMMARY_OUTPUT
-echo "The build was successful.  " >> $GH_SUMMARY_OUTPUT
-echo "The build took $elapsed_time seconds.  " >> $GH_SUMMARY_OUTPUT
-echo "***" >> $GH_SUMMARY_OUTPUT
-echo "<details><summary>Click to expand</summary>  " >> $GH_SUMMARY_OUTPUT
-echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-echo "$STD_EDITED_OUTPUT" >> $GH_SUMMARY_OUTPUT
-echo "\`\`\`  " >> $GH_SUMMARY_OUTPUT
-echo "</details>  " >> $GH_SUMMARY_OUTPUT
-echo $GH_SUMMARY_OUTPUT > $GITHUB_STEP_SUMMARY
+GITHUB_STEP_SUMMARY=$(mktemp)
+echo "# ✅ Build Successful  " > $GITHUB_STEP_SUMMARY
+echo "The build was successful.  " >> $GITHUB_STEP_SUMMARY
+echo "The build took $elapsed_time seconds.  " >> $GITHUB_STEP_SUMMARY
+echo "***" >> $GITHUB_STEP_SUMMARY
+echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+echo "$STD_EDITED_OUTPUT" >> $GITHUB_STEP_SUMMARY
+echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+echo "</details>  " >> $GITHUB_STEP_SUMMARY
 
