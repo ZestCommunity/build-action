@@ -57,9 +57,13 @@ if [ $meson_exit_code -ne 0 ]; then
   echo "Meson setup failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
   echo "***" >> $GITHUB_STEP_SUMMARY
   echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   cat $COMPILE_STD_OUTPUT >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "</details>  " >> $GITHUB_STEP_SUMMARY
   echo "::endgroup::"
   exit 1
@@ -92,9 +96,13 @@ if [ $meson_exit_code -ne 0 ]; then
   echo "Meson compile failed in $elapsed_time seconds. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
   echo "***" >> $GITHUB_STEP_SUMMARY
   echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "\`\`\`\n  " >> $GITHUB_STEP_SUMMARY
+  echo "  " >> $GITHUB_STEP_SUMMARY
   echo "</details>  " >> $GITHUB_STEP_SUMMARY
   exit 1
 fi
@@ -112,8 +120,12 @@ echo "# ✅ Build Successful  " > $GITHUB_STEP_SUMMARY
 echo "The build was successful and took $elapsed_time seconds.  " >> $GITHUB_STEP_SUMMARY
 echo "***" >> $GITHUB_STEP_SUMMARY
 echo "<details><summary>Click to expand</summary>  " >> $GITHUB_STEP_SUMMARY
+echo "  " >> $GITHUB_STEP_SUMMARY
 echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+echo "  " >> $GITHUB_STEP_SUMMARY
 cat $STD_EDITED_OUTPUT >> $GITHUB_STEP_SUMMARY
+echo "  " >> $GITHUB_STEP_SUMMARY
 echo "\`\`\`  " >> $GITHUB_STEP_SUMMARY
+echo "  " >> $GITHUB_STEP_SUMMARY
 echo "</details>  " >> $GITHUB_STEP_SUMMARY
 
