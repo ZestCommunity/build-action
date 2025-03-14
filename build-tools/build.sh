@@ -53,7 +53,6 @@ meson_exit_code = ${PIPESTATUS[0]}
 echo "Meson setup exit code: $meson_exit_code"
 if [ $meson_exit_code -ne 0 ]; then
   echo "Meson setup failed. Please check the logs for more information."
-  GITHUB_STEP_SUMMARY=$(mktemp)
   echo "# 🛑 Meson Setup Failed  " > $GITHUB_STEP_SUMMARY
   echo "Meson setup failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
   echo "***" >> $GITHUB_STEP_SUMMARY
@@ -89,7 +88,6 @@ sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" $STD_OUTPUT >$STD_EDITED_
 
 if [ $meson_exit_code -ne 0 ]; then
   echo "Meson compile failed. Please check the logs for more information."
-  GITHUB_STEP_SUMMARY=$(mktemp)
   echo "# 🛑 Meson Compile Failed  " > $GITHUB_STEP_SUMMARY
   echo "Meson compile failed. Please check the logs for more information.  " >> $GITHUB_STEP_SUMMARY
   echo "***" >> $GITHUB_STEP_SUMMARY
@@ -110,7 +108,6 @@ echo "The build was successful"
 echo "The build took $elapsed_time seconds"
 
 # job summary
-GITHUB_STEP_SUMMARY=$(mktemp)
 echo "# ✅ Build Successful  " > $GITHUB_STEP_SUMMARY
 echo "The build was successful.  " >> $GITHUB_STEP_SUMMARY
 echo "The build took $elapsed_time seconds.  " >> $GITHUB_STEP_SUMMARY
