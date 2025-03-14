@@ -155,7 +155,7 @@ jobs:
     uses: ./.github/workflows/test.yml
     with:
       repository: ZestCommunity/ZestCode
-      ref: build/meson-init
+      ref: main
       caller_token: ${{ github.token }}
       # expect_error: ${{ matrix.expect_error }}
       # upload_artifact: ${{ matrix.upload_artifact }}
