@@ -116,3 +116,5 @@ jobs:
         id: test-action
         uses: ./action/
         continue-on-error: False
+        with:
+          write_job_summary: ${{ inputs.write_job_summary }}
