@@ -49,7 +49,8 @@ git config --global --add safe.directory /github/workspace
 COMPILE_STD_OUTPUT=$(mktemp)
 echo "::group::Build Project"
 meson setup --cross-file scripts/v5.ini builddir | tee $COMPILE_STD_OUTPUT
-if [ $? -ne 0 ]; then
+meson_exit_code = ${PIPESTATUS[0]}
+if [ $meson_exit_code -ne 0 ]; then
   echo "Meson setup failed. Please check the logs for more information."
   GH_SUMMARY_OUTPUT=$(mktemp)
   echo "# 🛑 Meson Setup Failed  " > $GH_SUMMARY_OUTPUT
