@@ -52,7 +52,7 @@ on:
 
 jobs:
   test:
-    name: "Testing Container"
+    name: "Testing Container ${{ inputs.write_job_summary }}"
     runs-on: ubuntu-latest
     steps:
 #       - name: Summarize Parameters

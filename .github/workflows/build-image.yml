@@ -24,6 +24,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   Build_Container:
+    name: Build Docker Container
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -102,6 +103,7 @@ jobs:
       artifact_id: ${{ steps.upload.outputs.artifact-id }}
 
   Test_Action:
+    name: Test Docker Container/GitHub Action
     needs: Build_Container
     uses: ./.github/workflows/test.yml
     strategy:
@@ -116,7 +118,9 @@ jobs:
       repository: ${{ matrix.repository }}
       ref: ${{ matrix.ref }}
       caller_token: ${{ matrix.caller_token }}
+
   Upload_Image:
+    name: Upload Docker Image to ghcr.io Registry
     permissions:
       contents: read
       packages: write
