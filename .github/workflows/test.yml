@@ -118,3 +118,10 @@ jobs:
         continue-on-error: False
         with:
           write_job_summary: ${{ inputs.write_job_summary }}
+          
+      - name: Upload Binary
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: "program.bin"
+          path: "build/program.bin"
