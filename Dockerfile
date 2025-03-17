@@ -45,16 +45,8 @@ ENV PATH="/arm-none-eabi-toolchain/bin:/root/.local/bin:${PATH}"
 
 ENV PYTHONUNBUFFERED=1
 
-# Setup Build
-# ENV PROS_PROJECT=${PROS_PROJECT}
-# ENV REPOSITORY=${REPOSITORY}
-# ENV LIBRARY_PATH=${LIBRARY_PATH}
-
 COPY build-tools/build.sh /build.sh
 RUN chmod +x /build.sh
-# COPY build-tools/build.py /build.py
-# RUN chmod +x /build.py
 COPY LICENSE /LICENSE
 
 ENTRYPOINT ["/build.sh"]
-# CMD ["python3", "/build.py"]

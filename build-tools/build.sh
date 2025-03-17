@@ -13,27 +13,6 @@ enable-errors() {
 script_start_time=$(date +%s)
 build_start_time=-1
 
-# # ------------
-# # CREATE TRAP
-# # ------------
-# # Create a trap to catch errors and print the error message
-# trap '[[ $trap_enabled == true ]] && error' ERR
-
-# function error() {
-#   GITHUB_BUILD_SUMMARY_OUTPUT=$(mktemp)
-#   echo "# 🛑 Build Failed\n"
-#   echo "The build failed. Please check the logs for more information.\n"
-#   echo "***"
-#   # if build_start_time is -1, then the build has not started yet
-#   if [ $build_start_time -eq -1 ]; then
-#     echo "The build failed to start. This could mean an error occured in the script itself, and if so, consider opening an issue on https://github.com/ZestCommunity/build-action/issues."
-#   else
-#     # calculate the elapsed time
-#     end_time=$(date +%s)
-#     elapsed_time=$((end_time - $build_start_time))
-#     echo "The build failed after $elapsed_time seconds."
-#   fi
-# }
 # ------------
 # ECHO LICENSE
 # ------------

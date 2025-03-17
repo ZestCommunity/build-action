@@ -14,64 +14,16 @@ on:
         description: "The token of the caller"
         required: true
         type: string
-#       expect_error:
-#         description: Whether to expect action to fail, and only to succeed if the action fails
-#         default: false
-#         type: boolean
-#       upload_artifact:
-#         description: Whether to create an artifact. Disabled if expect_error is true.
-#         default: true
-#         type: boolean
-#       multithreading:
-#         description: Whether to use multithreading when building the project
-#         default: true
-#         type: boolean
-#       append_sha_to_version:
-#         description: Whether to append the short commit sha to the version of the artifact
-#         default: true
-#         type: boolean
-#       add_extra_files:
-#         description: Whether to add LICENSE, README, and VERSION to artifact.
-#         default: false
-#         type: boolean
-#       lib_folder_name:
-#         description: |
-#           The name of the folder under the include directory that contains the headers for the project.
-#           Required if add_extra_files is true
-#         default: ""
-#         type: string
       write_job_summary:
         description: Whether to write the artifact URL to the job summary
         default: true
-        type: boolean   
-#       artifact_additional_postfix:
-#         description: Additional postfix to add to the artifact name
-#         default: ""
-#         type: string
-#         required: false 
+        type: boolean
 
 jobs:
   test:
     name: "Testing Container: Write Job Summary?${{ inputs.write_job_summary }}"
     runs-on: ubuntu-latest
     steps:
-#       - name: Summarize Parameters
-#         run: |
-#           echo "
-#           ## Parameters
-#           | Param | Value      |
-#           | ------------- | ------------- |
-#           | :package: repo | ${{ inputs.repository }} |
-#           | :label: ref | ${{ inputs.ref }} |
-#           | :rotating_light: expect err | ${{ inputs.expect_error }} |
-#           | :arrow_up: upload | ${{ inputs.upload_artifact }} |
-#           | :thread: multithread | ${{ inputs.multithreading }} |
-#           | :closed_lock_with_key: append sha | ${{ inputs.append_sha_to_version }} |
-#           | :heavy_plus_sign: add extras | ${{ inputs.add_extra_files }} |
-#           | :memo: summary | ${{ inputs.write_job_summary }} |
-#           | :card_file_box: lib folder | ${{ inputs.lib_folder_name }} |
-#           | :bookmark: postfix | ${{ inputs.artifact_additional_postfix }}
-#           " | sed "s/true/:white_check_mark: true/g" | sed "s/false/❌ false/g" >> $GITHUB_STEP_SUMMARY
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -100,28 +52,9 @@ jobs:
           sed -i "s|Dockerfile|docker://${{steps.load.outputs.tag}}|g" action/action.yml
           cat action/action.yml
 
-      # - name: Test Action
-      #   id: test-action
-      #   run: |
-      #     docker run --rm --entrypoint /bin/bash -v ./ZestCode:/workspace/ZestCode ${{ steps.load.outputs.tag }} -c "
-      #       ls -a &&
-      #       cd /workspace &&
-      #       ls -a &&
-      #       cd ZestCode &&
-      #       sed -i 's/-mfloat-abi=hard/-mfloat-abi=softfp/g' scripts/v5.ini &&
-      #       meson setup --cross-file scripts/v5.ini builddir &&
-      #       meson compile -C builddir
-      #     "
       - name: Test Action
         id: test-action
         uses: ./action/
         continue-on-error: False
         with:
           write_job_summary: ${{ inputs.write_job_summary }}
-          
-      # - name: Upload Binary
-      #   id: upload
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: "program.bin+${{ github.event.number }}"
-      #     path: "build/program.bin"
