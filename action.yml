@@ -1,0 +1,20 @@
+name: 'Zest Build Action'
+description: 'Automatically build ZestCode templates'
+branding:
+  color: 'blue'
+  icon: 'box'
+  colorized: true
+
+inputs:
+  write_job_summary:
+    required: false
+    default: true
+    description: Whether to create a GitHub job summary
+
+outputs:
+  name:
+    description: 'The recommended name for the artifact.'
+    
+runs:
+  using: 'Docker'
+  image: 'Dockerfile'

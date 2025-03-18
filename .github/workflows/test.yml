@@ -1,0 +1,60 @@
+name: Tests
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: The github repository to checkout
+        required: true
+        type: string
+      ref:
+        description: The ref of the github repository to checkout
+        required: true
+        type: string
+      caller_token:
+        description: "The token of the caller"
+        required: true
+        type: string
+      write_job_summary:
+        description: Whether to write the artifact URL to the job summary
+        default: true
+        type: boolean
+
+jobs:
+  test:
+    name: "Testing Container: Write Job Summary?${{ inputs.write_job_summary }}"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.ref }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ./action/
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: image.tar
+          github-token: ${{ inputs.caller_token }}
+
+      - name: Load Image
+        id: load
+        run: |
+          echo "tag=$(docker load -i ./image.tar | grep -oP 'Loaded image: \K.*' | head -n 1)" > $GITHUB_OUTPUT
+
+      - name: Edit Action.yml With Local Image
+        run: |
+          cat action/action.yml
+          sed -i "s|docker://ghcr.io/.*/build-action:[^\']*|docker://${{steps.load.outputs.tag}}|g" action/action.yml
+          sed -i "s|Dockerfile|docker://${{steps.load.outputs.tag}}|g" action/action.yml
+          cat action/action.yml
+
+      - name: Test Action
+        id: test-action
+        uses: ./action/
+        continue-on-error: False
+        with:
+          write_job_summary: ${{ inputs.write_job_summary }}
