@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.licenses=MIT
 
 # Install Required Packages and ARM Toolchain
 RUN apk add --no-cache bash
-RUN mkdir "/arm-none-eabi-toolchain" && wget -O- "https://developer.arm.com/-/media/Files/downloads/gnu/13.3.rel1/binrel/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi.tar.xz" \
+RUN mkdir "/arm-none-eabi-toolchain" && wget -O- "https://developer.arm.com/-/media/Files/downloads/gnu/14.2.rel1/binrel/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi.tar.xz" \
     | tar Jxf - -C "/arm-none-eabi-toolchain" --strip-components=1 
 RUN <<-"EOF" bash
     set -e
