@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Build Action
         id: test
-        uses: ZestCommunity/build-action@main
+        uses: ZestCommunity/build-action@<latest version tag here, see releases page>
 ```
 ### Inputs:
 > `write_job_summary` 
