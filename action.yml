@@ -17,4 +17,4 @@ outputs:
     
 runs:
   using: 'Docker'
-  image: 'docker://ghcr.io/zestcommunity/build-action:v0.1.1'
+  image: 'docker://ghcr.io/zestcommunity/build-action:v0.1.2'
