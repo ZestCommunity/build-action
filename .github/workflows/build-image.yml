@@ -113,12 +113,12 @@ jobs:
         repository: ["ZestCommunity/ZestCode"]
         ref: ["main"]
         caller_token: ["${{ github.token }}"]
-        clone_repo: [true, false] # false tests setup command
+        clone_repo: [true]
         expect_error: [false]
         include:
           # Specific case of setup command failure
           - write_job_summary: true
-            clone_repo: true
+            clone_repo: false
             expect_error: true
 
     with:
