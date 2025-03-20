@@ -119,6 +119,7 @@ jobs:
           # Specific case of setup command failure
           - write_job_summary: true
             clone_repo: true
+            expect_error: true
 
     with:
       write_job_summary: ${{ matrix.write_job_summary }}
