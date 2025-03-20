@@ -32,6 +32,15 @@ jobs:
     name: "Testing Container: Write Job Summary?${{ inputs.write_job_summary }}"
     runs-on: ubuntu-latest
     steps:
+      - name: Print Inputs
+        run: |
+          echo "Inputs(repository): ${{ inputs.repository }}"
+          echo "Inputs(ref): ${{ inputs.ref }}"
+          echo "Inputs(caller_token): ${{ inputs.caller_token }}"
+          echo "Inputs(write_job_summary): ${{ inputs.write_job_summary }}"
+          echo "Inputs(clone_repo): ${{ inputs.clone_repo }}"
+          echo "Inputs(expect_error): ${{ inputs.expect_error }}"
+
       - name: Checkout Repository to Test
         uses: actions/checkout@v4
         if: ${{ inputs.clone_repo }}
