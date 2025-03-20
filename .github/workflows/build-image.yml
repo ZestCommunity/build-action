@@ -113,6 +113,13 @@ jobs:
         repository: ["ZestCommunity/ZestCode"]
         ref: ["main"]
         caller_token: ["${{ github.token }}"]
+        clone_repo: [true, false] # false tests setup command
+        expect_error: [false, true]
+      exclude:
+        # We only really need to test if the action fails the setup command in one case
+        - write_job_summary: false
+          clone_repo: false
+
     with:
       write_job_summary: ${{ matrix.write_job_summary }}
       repository: ${{ matrix.repository }}

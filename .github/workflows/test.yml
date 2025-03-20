@@ -18,19 +18,28 @@ on:
         description: Whether to write the artifact URL to the job summary
         default: true
         type: boolean
+      clone_repo:
+        description: Whether to clone the repo
+        default: true
+        type: boolean
+      expect_error:
+        description: Whether to expect an error
+        default: false
+        type: boolean
 
 jobs:
   test:
     name: "Testing Container: Write Job Summary?${{ inputs.write_job_summary }}"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository to Test
         uses: actions/checkout@v4
+        if: ${{ inputs.clone_repo }}
         with:
           repository: ${{ inputs.repository }}
           ref: ${{ inputs.ref }}
 
-      - name: Checkout
+      - name: Checkout Action
         uses: actions/checkout@v4
         with:
           path: ./action/
@@ -55,6 +64,16 @@ jobs:
       - name: Test Action
         id: test-action
         uses: ./action/
-        continue-on-error: False
+        continue-on-error: ${{ inputs.expect_error }}
         with:
           write_job_summary: ${{ inputs.write_job_summary }}
+      
+      - name: Check for Failure If Expected
+        if: ${{ inputs.expect_error }}        
+        run: |
+          if [ "${{ (steps.test-action.outcome == 'success') }}" == "true" ]; then
+            echo "Test Action step succeeded when it was expected to fail. Failing job.."
+            exit 1
+          else
+            echo "Test Action step failed as expected."
+          fi
